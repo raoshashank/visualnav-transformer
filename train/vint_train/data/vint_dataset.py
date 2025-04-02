@@ -187,7 +187,7 @@ class ViNT_Dataset(Dataset):
 
         return samples_index, goals_index
 
-    def _sample_goal(self, trajectory_name, curr_time, max_goal_dist):
+    def _sample_goal(self, trajectory_name, curr_time, max_goal_dist,const_goal_dist=False):
         """
         Sample a goal from the future in the same trajectory.
         Returns: (trajectory_name, goal_time, goal_is_negative)
@@ -197,6 +197,8 @@ class ViNT_Dataset(Dataset):
             trajectory_name, goal_time = self._sample_negative()
             return trajectory_name, goal_time, True
         else:
+            if const_goal_dist:
+                goal_offset = self.len_traj_pred
             goal_time = curr_time + int(goal_offset * self.waypoint_spacing)
             return trajectory_name, goal_time, False
 
@@ -298,7 +300,7 @@ class ViNT_Dataset(Dataset):
                 which_dataset (torch.Tensor): index of the datapoint in the dataset [for identifying the dataset for visualization when using multiple datasets]
         """
         f_curr, curr_time, max_goal_dist = self.index_to_data[i]
-        f_goal, goal_time, goal_is_negative = self._sample_goal(f_curr, curr_time, max_goal_dist)
+        f_goal, goal_time, goal_is_negative = self._sample_goal(f_curr, curr_time, max_goal_dist,const_goal_dist=True)
 
         # Load images
         context = []
@@ -349,8 +351,7 @@ class ViNT_Dataset(Dataset):
             (distance < self.max_action_distance) and
             (distance > self.min_action_distance) and
             (not goal_is_negative)
-        )
-
+        )    
         return (
             torch.as_tensor(obs_image, dtype=torch.float32),
             torch.as_tensor(goal_image, dtype=torch.float32),

@@ -2,7 +2,8 @@ import numpy as np
 from PIL import Image
 import torch
 
-VIZ_IMAGE_SIZE = (640, 480)
+#VIZ_IMAGE_SIZE = (640, 480)
+VIZ_IMAGE_SIZE = (848, 480)
 RED = np.array([1, 0, 0])
 GREEN = np.array([0, 1, 0])
 BLUE = np.array([0, 0, 1])

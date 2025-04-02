@@ -149,6 +149,10 @@ def compare_waypoints_pred_to_label(
         traj_colors=[CYAN, MAGENTA],
         point_colors=[GREEN, RED],
     )
+    ax[0].set_xlim(min(pred_waypoints[:,0].min(),label_waypoints[:,0].min()) - 1, 
+                   max(pred_waypoints[:,0].max(),label_waypoints[:,0].max()) + 1)
+    ax[0].set_ylim(min(pred_waypoints[:,1].min(),label_waypoints[:,1].min()) - 1, 
+                   max(pred_waypoints[:,1].max(),label_waypoints[:,1].max()) + 1)
     plot_trajs_and_points_on_image(
         ax[1],
         obs_img,
@@ -173,6 +177,8 @@ def compare_waypoints_pred_to_label(
 
     if not display:
         plt.close(fig)
+    else:
+        plt.show()
 
 
 def plot_trajs_and_points_on_image(

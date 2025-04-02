@@ -27,3 +27,12 @@ sacson:
   odom_process_func: "nav_to_xy_yaw"
 
 # add your own datasets below:
+go2nus:
+  odomtopics: "/utlidar/robot_odom"
+  imtopics: "/camera/camera/color/image_raw/compressed"
+  ang_offset: 0.0
+  img_process_func: "process_nus_dog_img"
+  odom_process_func: "nav_to_xy_yaw"
+  typemap:
+    '/utlidar/robot_odom': "Odometry"
+    '/camera/camera/color/image_raw/compressed': "CompressedImage"
